@@ -4,7 +4,7 @@
 if ! [ "$(ls -A /var/www/html/)" ]; then
 
     cd /var/www/html/
-    echo '<?php echo phpinfo(); ?>' > index.html
+    echo '<?php echo phpinfo(); ?>' > index.php
 
 fi
 
