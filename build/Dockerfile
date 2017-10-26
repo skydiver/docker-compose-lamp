@@ -26,4 +26,6 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && composer global require "hirak/prestissimo:^0.3"
 
 # DOCKER
+COPY docker-entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["apache2-foreground"]
