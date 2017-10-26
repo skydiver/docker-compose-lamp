@@ -3,11 +3,17 @@ FROM php:7.1-apache
 # ENABLE MOD REWRITE
 RUN a2enmod rewrite
 
-# PHP EXTENSIONS
-RUN apt-get update && apt-get install -y git-core libsqlite3-dev libpq-dev libmcrypt-dev libpng12-dev libjpeg-dev libicu-dev libxslt1.1 libxslt1-dev && rm -rf /var/lib/apt/lists/* \
-        && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
-        && docker-php-ext-configure intl \
-        && docker-php-ext-install gd mysqli mcrypt zip mbstring pdo pdo_mysql pdo_sqlite pdo_pgsql json intl xsl soap
+# INSTALL PACKAGES
+RUN apt update \
+	&& apt install -y git-core libsqlite3-dev libpq-dev libmcrypt-dev libpng12-dev libjpeg-dev libicu-dev libxslt1.1 libxslt1-dev libfreetype6-dev \
+	&& rm -rf /var/lib/apt/lists/*
+
+# CONFIGURE PHP EXTENSIONS
+RUN docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr --with-freetype-dir=/usr \
+        && docker-php-ext-configure intl
+
+# ENABLE PHP EXTENSIONS
+RUN docker-php-ext-install gd mysqli mcrypt zip mbstring pdo pdo_mysql pdo_sqlite pdo_pgsql json intl xsl soap
 
 # PHP OPCACHE
 RUN { \
